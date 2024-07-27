@@ -138,7 +138,7 @@ export async function deleteProductById(productId: string) {
 }
 
 export async function updateProduct(formData: FormData) {
-    console.log(`Attempting to Update product ${formData.get('name')}`);
+    console.log(`Attempting to Update product ${formData.get('id')}`);
     const supabase = createClient();
 
     const id = formData.get('id');
@@ -166,10 +166,10 @@ export async function updateProduct(formData: FormData) {
         throw new Error(`Error updating product: ${error.message}`);
     }
 
-    if (data && data.length > 0) {
-        console.log(`Successfully updated product ${formData.get('name')}`);
+    if (data) {
+        console.log(`Successfully updated product`);
     } else {
-        console.warn(`No product found called ${formData.get('name')}`);
+        console.warn(`No product found`);
     }
 
     revalidatePath('/products');
