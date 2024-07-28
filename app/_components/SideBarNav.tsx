@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import {Package2} from "lucide-react";
-import {navLinks} from "@/app/_data/navlinks";
+import {accNavLinks, dashNavLinks} from "@/app/_data/navlinks";
 import React from "react";
 import {usePathname} from "next/navigation";
 
@@ -22,7 +22,7 @@ export default function SideBarNav() {
             </div>
             <div className="flex-1">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                    {navLinks.map((link) => (
+                    {dashNavLinks.map((link) => (
                         <Link href={link.href} className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${isActive(link.href) ? 'bg-muted text-primary' : 'text-muted-foreground'}`}
                               key={link.text}
                         >

@@ -1,6 +1,6 @@
 'use client';
 
-import {navLinks} from "@/app/_data/navlinks";
+import {dashNavLinks} from "@/app/_data/navlinks";
 import Link from "next/link";
 import {SheetClose} from "@/app/_components/ui/sheet";
 import React from "react";
@@ -14,7 +14,7 @@ export default function NavLinksMobile() {
 
     return (
         <nav className="grid gap-2 text-lg font-medium">
-            {navLinks.map((link) => (
+            {dashNavLinks.map((link) => (
                 <Link href={link.href}
                       className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground ${isActive(link.href) ? 'bg-muted text-primary' : 'text-muted-foreground'}`}
                       key={link.text}

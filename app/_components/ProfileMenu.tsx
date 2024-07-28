@@ -1,3 +1,5 @@
+'use client';
+
 import {
     DropdownMenu,
     DropdownMenuContent, DropdownMenuItem,
@@ -18,14 +20,13 @@ export default function ProfileMenu() {
             <DropdownMenuContent>
                 <DropdownMenuLabel>
                     <div className={'flex justify-center items-center gap-2'}>
-                        My Account
+                        <Link href={'/account'}>My Account</Link>
                         <ThemeToggle className={'md:hidden'}/>
                     </div>
                 </DropdownMenuLabel>
-                <DropdownMenuItem><Link href={'#'}>Profile</Link></DropdownMenuItem>
-                <DropdownMenuItem><Link href={'#'}>Billing</Link></DropdownMenuItem>
-                <DropdownMenuItem><Link href={'#'}>Team</Link></DropdownMenuItem>
-                <DropdownMenuItem><Link href={'#'}>Subscription</Link></DropdownMenuItem>
+                <DropdownMenuItem><Link href={'/account/profile'}>Profile</Link></DropdownMenuItem>
+                <DropdownMenuItem><Link href={'/account/preferences'}>Preferences</Link></DropdownMenuItem>
+                <DropdownMenuItem><Link href={'#'}>Settings</Link></DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className={'flex justify-center items-center'}>
                     <SignOutActionForm />

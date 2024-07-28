@@ -1,4 +1,13 @@
-import {Home, ShoppingCart, Package, NotebookPen , LucideIcon} from 'lucide-react';
+import {
+    Home,
+    ShoppingCart,
+    Package,
+    NotebookPen,
+    Contact,
+    User,
+    Settings2,
+    LucideIcon
+} from 'lucide-react';
 
 interface NavLink {
     href: string;
@@ -6,9 +15,15 @@ interface NavLink {
     text: string;
 }
 
-export const navLinks: NavLink[] = [
+export const dashNavLinks: NavLink[] = [
     { href: "/dashboard", icon: Home, text: "Dashboard" },
     { href: "/orders", icon: ShoppingCart, text: "Orders" },
     { href: "/products", icon: Package, text: "Products" },
     { href: '/todos', icon: NotebookPen, text: 'Todos'}
+];
+
+export const accNavLinks: NavLink[] = [
+    { href: '/account', icon: Contact, text: 'My Account'},
+    { href: '/account/profile', icon: User, text: 'Profile'},
+    {href: '/account/preferences', icon: Settings2, text: 'Preferences'}
 ];

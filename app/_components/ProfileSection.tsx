@@ -1,13 +1,13 @@
-'use server';
-
 import {Avatar, AvatarFallback, AvatarImage} from "@/app/_components/ui/avatar";
 import ProfileMenu from "@/app/_components/ProfileMenu";
 import {createClient} from "@/app/_utils/supabase/server";
+import {User} from "@supabase/supabase-js";
 
-export default async function ProfileSection() {
-    const supabase = createClient();
-    const {data: {user}} = await supabase.auth.getUser();
+interface ProfileSectionProps {
+    user: User | null;
+}
 
+export default function ProfileSection({user}: ProfileSectionProps) {
     return (
         <div className={'mt-2 flex justify-between items-center'}>
             <div className={'flex justify-center items-center gap-2'}>

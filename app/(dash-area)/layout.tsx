@@ -7,6 +7,7 @@ import MobileNav from "@/app/_components/MobileNav";
 import AdminSearch from "@/app/_components/AdminSearch";
 import {ThemeToggle} from "@/app/_components/ThemeToggle";
 import SiteTitle from "@/app/_components/SiteTitle";
+import {createClient} from "@/app/_utils/supabase/server";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -19,10 +20,13 @@ export const metadata: Metadata = {
 };
 
 
-export default function DashLayout({children}: { children: React.ReactNode; }) {
+export default async function DashLayout({children}: { children: React.ReactNode; }) {
+    const supabase = createClient();
+    const {data: {user}, error} = await supabase.auth.getUser();
+
     return (
         <div className="grid min-h-screen w-full md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr]">
-            <SideBar/>
+            <SideBar user={user}/>
             <div className="flex flex-col">
                 <header
                     className="flex h-14 items-center gap-4 justify-between border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6"
@@ -37,7 +41,7 @@ export default function DashLayout({children}: { children: React.ReactNode; }) {
                             <ThemeToggle />
                         </div>
                     </div>
-                    <MobileNav/>
+                    <MobileNav user={user}/>
                 </header>
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                     {children}
