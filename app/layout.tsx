@@ -6,6 +6,7 @@ import {ThemeProvider} from "next-themes";
 import {createClient} from "@/app/_utils/supabase/server";
 import {UserProvider} from "@/app/_context/UserContext";
 import {Toaster} from "@/app/_components/ui/sonner";
+import NextTopLoader from "nextjs-toploader";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -37,6 +38,7 @@ export default async function RootLayout({children}: { children: React.ReactNode
             disableTransitionOnChange
         >
             <UserProvider initialUser={user}>
+                <NextTopLoader showSpinner={false} color={'hsl(var(--primary))'} easing={'ease'}/>
                 {children}
             </UserProvider>
             <Toaster richColors closeButton />

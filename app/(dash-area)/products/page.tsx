@@ -3,7 +3,7 @@ import ProductTable from "@/app/_components/ProductTable";
 import {getFilteredProducts, getProductCount} from "@/app/_lib/data-service";
 import AdminSearch from "@/app/_components/AdminSearch";
 import PaginationButtons from "@/app/_components/Pagination";
-import {ProductTableSkeletonFull} from "@/app/_components/Skeletons";
+import {PaginationSkeleton, ProductTableSkeletonFull} from "@/app/_components/Skeletons";
 import {PRODUCTS_PER_PAGE} from "@/app/_data/constants";
 import {AddProductSheetDrawer} from "@/app/_components/AddProductSheetDrawer";
 
@@ -32,10 +32,11 @@ export default async function ProductsPage({searchParams}: { searchParams?: Prod
                     currentPage={currentPage}
                     productsPerPage={PRODUCTS_PER_PAGE}
                 />
-                <div className="mt-5 flex w-full justify-center">
-                    <PaginationButtons totalPages={Math.ceil(totalProducts / PRODUCTS_PER_PAGE)}/>
-                </div>
+
             </Suspense>
+            <div className="mt-5 flex w-full justify-center">
+                <PaginationButtons totalPages={Math.ceil(totalProducts / PRODUCTS_PER_PAGE)}/>
+            </div>
         </div>
     );
 }

@@ -34,7 +34,6 @@ export default function ProductTable({products, totalProducts, currentPage, prod
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     if (isDesktop) {
-
         return (
             <Card>
                 <CardHeader>
