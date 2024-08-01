@@ -4,7 +4,7 @@ import {createClient} from "@/app/_utils/supabase/server";
 import {ascending} from "d3-array";
 import {revalidatePath} from "next/cache";
 import {PRODUCTS_PER_PAGE} from "@/app/_data/constants";
-import {Product} from "@/app/_types/database";
+import {Product, Profile} from "@/app/_types/database";
 
 //////////
 // GET //
@@ -108,13 +108,14 @@ export async function getProductCount(query: string) {
     }
 }
 
-export async function getProfileById(userId: string): Promise<Product[]> {
+
+export async function getUserProfile()  {
     const supabase = createClient();
 
     const {data, error} = await supabase
         .from('et_profiles')
-        .select('*')
-        .eq('id', userId)
+        .select('first_name, last_name, email')
+        .single();
 
 
     if (error) {

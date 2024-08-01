@@ -4,13 +4,13 @@ import {Menu} from "lucide-react";
 import React from "react";
 import ProfileSection from "@/app/_components/ProfileSection";
 import NavLinksMobile from "@/app/_components/NavLinksMobile";
-import {User} from "@supabase/supabase-js";
+import {ProfileData} from "@/app/_types/database";
 
 interface MobileNavProps {
-    user: User | null;
+    profileData: ProfileData;
 }
 
-export default function MobileNav({user}: MobileNavProps) {
+export default function MobileNav({profileData}: MobileNavProps) {
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -31,7 +31,7 @@ export default function MobileNav({user}: MobileNavProps) {
                 </div>
 
                 <div className={'mt-auto flex flex-col'}>
-                   <ProfileSection user={user} />
+                   <ProfileSection profileData={profileData} />
                 </div>
             </SheetContent>
         </Sheet>

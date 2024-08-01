@@ -1,26 +1,28 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/app/_components/ui/avatar";
 import ProfileMenu from "@/app/_components/ProfileMenu";
-import {createClient} from "@/app/_utils/supabase/server";
-import {User} from "@supabase/supabase-js";
 import Link from "next/link";
+import {ProfileData} from "@/app/_types/database";
 
 interface ProfileSectionProps {
-    user: User | null;
+    profileData: ProfileData;
 }
 
-export default function ProfileSection({user}: ProfileSectionProps) {
+export default function ProfileSection({profileData: {first_name, last_name, email}}: ProfileSectionProps) {
+    const fullName = `${first_name} ${last_name}`;
+    const initials = `${first_name?.slice(0,1)}${last_name?.slice(0,1)}`;
+
     return (
         <div className={'mt-2 flex justify-between items-center'}>
             <div className={'flex justify-center items-center gap-2'}>
                 <Link href={'/account/profile'}>
                     <Avatar>
                         <AvatarImage src={'#'}/>
-                        <AvatarFallback>FB</AvatarFallback>
+                        <AvatarFallback>{initials}</AvatarFallback>
                     </Avatar>
                 </Link>
                 <div>
-                    <p className={'font-medium text-sm'}>{user?.user_metadata.name}</p>
-                    <p className={'font-extralight text-xs'}>{user?.email}</p>
+                    <p className={'font-medium text-sm'}>{fullName}</p>
+                    <p className={'font-extralight text-xs'}>{email}</p>
                 </div>
             </div>
             <ProfileMenu/>

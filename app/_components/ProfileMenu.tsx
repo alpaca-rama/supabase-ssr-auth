@@ -50,7 +50,7 @@ export default function ProfileMenu() {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                    <Link href={'account/settings'}>
+                    <Link href={'/account/settings'}>
                         <div className={'flex justify-center items-center gap-2'}>
                             <Cog size={16}/>
                             Settings

@@ -1,10 +1,12 @@
+'use client';
+
 import { Provider } from "@supabase/auth-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { Button } from "@/app/_components/ui/button";
 import { oAuthSignIn } from "@/app/login/actions";
-import React, {useState} from "react";
-import { useFormStatus } from 'react-dom';
+import React, { useTransition } from "react";
+import { useRouter } from 'next/navigation';
 
 type OAuthProvider = {
     name: Provider,
@@ -17,25 +19,31 @@ interface OAuthButtonsProps {
 }
 
 function OAuthButton({ provider, buttonText }: { provider: OAuthProvider, buttonText: string }) {
-    // const { pending } = useFormStatus();
-    const [pending, setPending] = useState(false); // Local state for pending
+    const [isPending, startTransition] = useTransition();
 
-    const handleClick = async () => {
-        setPending(true);
-        await oAuthSignIn(provider.name);
-        setPending(false);
+    const handleClick = () => {
+        startTransition(async () => {
+            try {
+                await oAuthSignIn(provider.name);
+            } catch (error) {
+                console.error("OAuth sign-in failed:", error);
+            }
+        });
     };
+
+    const stateText = buttonText === 'Login' ? 'Logging in ' : 'Signing up ';
 
     return (
         <Button
-            // formAction={() => oAuthSignIn(provider.name)}
             onClick={handleClick}
             variant={'outline'}
             className="flex items-center justify-center w-full mb-2"
-            disabled={pending}
+            disabled={isPending}
         >
-            {pending ? (
-                'Connecting...'
+            {isPending ? (
+                <>
+                    <span className={'mr-4'}>{provider.icon}</span> {stateText} with {provider.displayName}
+                </>
             ) : (
                 <>
                     <span className={'mr-4'}>{provider.icon}</span> {buttonText} with {provider.displayName}
@@ -60,7 +68,7 @@ export default function OAuthButtons({ buttonText }: OAuthButtonsProps) {
     ];
 
     return (
-        <form>
+        <div>
             {oAuthProviders.map((provider) => (
                 <OAuthButton
                     key={provider.name}
@@ -68,6 +76,6 @@ export default function OAuthButtons({ buttonText }: OAuthButtonsProps) {
                     buttonText={buttonText}
                 />
             ))}
-        </form>
+        </div>
     );
 }

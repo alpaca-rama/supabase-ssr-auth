@@ -4,18 +4,18 @@ import SideBarNav from "@/app/_components/SideBarNav";
 import SidebarFooter from "@/app/_components/SidebarFooter";
 import Link from "next/link";
 import {Package2} from "lucide-react";
-import {accNavLinks, dashNavLinks} from "@/app/_data/navlinks";
+import {dashNavLinks} from "@/app/_data/navlinks";
 import React from "react";
 import {usePathname} from "next/navigation";
 import {Separator} from "@/app/_components/ui/separator";
 import ProfileSection from "@/app/_components/ProfileSection";
-import {User} from "@supabase/supabase-js";
+import {ProfileData} from "@/app/_types/database";
 
 interface SideBarProps {
-    user: User | null;
+    profileData: ProfileData;
 }
 
-export default function SideBar({user}: SideBarProps) {
+export default function SideBar({profileData}: SideBarProps) {
     const pathname = usePathname();
     const isActive = (href: string) => {
         return pathname?.startsWith(href);
@@ -51,7 +51,7 @@ export default function SideBar({user}: SideBarProps) {
                 <div className="mt-auto">
                     <div className={'p-4'}>
                         <Separator/>
-                        <ProfileSection user={user}/>
+                        <ProfileSection profileData={profileData}/>
                     </div>
                 </div>
             </div>

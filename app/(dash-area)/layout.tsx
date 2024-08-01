@@ -4,10 +4,11 @@ import '../globals.css';
 import {Inter as FontSans} from "next/font/google";
 import SideBar from "@/app/_components/SideBar";
 import MobileNav from "@/app/_components/MobileNav";
-import AdminSearch from "@/app/_components/AdminSearch";
 import {ThemeToggle} from "@/app/_components/ThemeToggle";
 import SiteTitle from "@/app/_components/SiteTitle";
 import {createClient} from "@/app/_utils/supabase/server";
+import {getUserProfile} from "@/app/_lib/data-service";
+import {ProfileData} from "@/app/_types/database";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -22,11 +23,12 @@ export const metadata: Metadata = {
 
 export default async function DashLayout({children}: { children: React.ReactNode; }) {
     const supabase = createClient();
-    const {data: {user}, error} = await supabase.auth.getUser();
+    // const {data: {user}, error} = await supabase.auth.getUser();
+    const profileData: ProfileData = await getUserProfile();
 
     return (
         <div className="grid min-h-screen w-full md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr]">
-            <SideBar user={user}/>
+            <SideBar profileData={profileData}/>
             <div className="flex flex-col">
                 <header
                     className="flex h-14 items-center gap-4 justify-between border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6"
@@ -41,7 +43,7 @@ export default async function DashLayout({children}: { children: React.ReactNode
                             <ThemeToggle />
                         </div>
                     </div>
-                    <MobileNav user={user}/>
+                    <MobileNav profileData={profileData}/>
                 </header>
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                     {children}

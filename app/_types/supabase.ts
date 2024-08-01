@@ -44,39 +44,26 @@ export type Database = {
       }
       et_profiles: {
         Row: {
-          avatar: string | null
-          created_at: string
+          email: string | null
           first_name: string | null
           id: string
           last_name: string | null
-          updated_at: string | null
         }
         Insert: {
-          avatar?: string | null
-          created_at?: string
+          email?: string | null
           first_name?: string | null
           id: string
           last_name?: string | null
-          updated_at?: string | null
         }
         Update: {
-          avatar?: string | null
-          created_at?: string
+          email?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
-          updated_at?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "et_profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "et_profiles_id_fkey1"
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"

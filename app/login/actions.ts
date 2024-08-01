@@ -53,6 +53,7 @@ export async function emailSignup(data: z.infer<typeof signupSchema>) {
             data: {
                 first_name: result.data.first_name,
                 last_name: result.data.last_name,
+                email: result.data.email
             }
         }
     });
