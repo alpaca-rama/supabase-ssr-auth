@@ -6,6 +6,7 @@ import {
     Contact,
     User,
     Settings2,
+    Cog,
     LucideIcon
 } from 'lucide-react';
 
@@ -25,5 +26,6 @@ export const dashNavLinks: NavLink[] = [
 export const accNavLinks: NavLink[] = [
     { href: '/account', icon: Contact, text: 'My Account'},
     { href: '/account/profile', icon: User, text: 'Profile'},
-    {href: '/account/preferences', icon: Settings2, text: 'Preferences'}
+    {href: '/account/preferences', icon: Settings2, text: 'Preferences'},
+    {href: 'account/settings', icon: Cog, text: 'Settings'}
 ];

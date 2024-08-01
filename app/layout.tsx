@@ -41,7 +41,7 @@ export default async function RootLayout({children}: { children: React.ReactNode
                 <NextTopLoader showSpinner={false} color={'hsl(var(--primary))'} easing={'ease'}/>
                 {children}
             </UserProvider>
-            <Toaster richColors closeButton />
+            <Toaster richColors closeButton position={'top-center'} />
         </ThemeProvider>
         </body>
         </html>

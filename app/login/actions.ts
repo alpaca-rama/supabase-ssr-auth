@@ -2,84 +2,68 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-
 import { createClient } from '@/app/_utils/supabase/server';
 import loginSchema from "@/app/_schemas/loginSchema";
 import signupSchema from "@/app/_schemas/signupSchema";
 import {Provider} from "@supabase/auth-js";
 import {getURL} from "@/app/_utils/helpers";
+import {z} from "zod";
 
-export async function emailLogin(formData: FormData) {
-    const supabase = createClient();
 
-    // Extract data from FormData and ensure non-null values
-    const email = formData.get('email');
-    const password = formData.get('password');
-
-    if (!email || !password) {
-        console.error('Email or password is missing');
-        redirect('/error?area=1');
-    }
-
-    const data = {
-        email: email.toString(),
-        password: password.toString(),
-    };
-
-    // Validate data using Zod
-    const result = loginSchema.safeParse(data);
+export async function emailLogin(email: string, password: string) {
+    // Validate input using Zod
+    const result = loginSchema.safeParse({ email, password });
 
     if (!result.success) {
-        // Handle validation errors
-        console.error(result.error.format());
-        redirect('/error');
+        console.error(`Login validation error: ${JSON.stringify(result.error.issues)}`);
+        return { error: 'Invalid email or password format' };
     }
 
-    const { error } = await supabase.auth.signInWithPassword(data);
+    const supabase = createClient();
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: result.data.email,
+        password: result.data.password
+    });
 
     if (error) {
-        redirect('/login?message=Could not authenticate user');
+        console.error(`Login error: ${error.message}`);
+        return { error: 'Invalid email or password' };
     }
 
     revalidatePath('/', 'layout');
-    redirect('/dashboard');
+    return { success: true };
 }
 
-export async function emailSignup(formData: FormData) {
-    console.log(formData);
+export async function emailSignup(data: z.infer<typeof signupSchema>) {
     const supabase = createClient();
-
-    // Extract data from FormData and ensure non-null values
-    const email = formData.get('email');
-    const password = formData.get('password');
-
-    if (!email || !password) {
-        console.error('Email or password is missing');
-        redirect('/error?area=2');
-    }
-
-    const data = {
-        email: email as string,
-        password: password as string,
-    };
-
-    // Validate data using Zod
+    // Validate input using Zod
     const result = signupSchema.safeParse(data);
 
     if (!result.success) {
-        // Handle validation errors
-        console.error(result.error.format());
-        redirect('/error?area=3');
+        console.error(`Signup validation error: ${JSON.stringify(result.error.issues)}`);
+        return { error: result.error.issues[0].message };
     }
 
-    const { error } = await supabase.auth.signUp(data);
+
+    const { data: signupData, error } = await supabase.auth.signUp({
+        email: result.data.email,
+        password: result.data.password,
+        options: {
+            data: {
+                first_name: result.data.first_name,
+                last_name: result.data.last_name,
+            }
+        }
+    });
 
     if (error) {
-        redirect('/login?message=Error signing up');
+        console.error(`Signup error: ${error.message}`);
+        return { error: 'Error during signup. Please try again.' };
     }
 
     revalidatePath('/', 'layout');
-    redirect('/login');
+    return { success: true };
 }
 
 export async function signOut() {

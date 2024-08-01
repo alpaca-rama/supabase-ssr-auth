@@ -20,7 +20,7 @@ export async function getProducts(): Promise<Product[]> {
 
     if (error) {
         console.error(`❌ [data-service.ts - getProducts] ${error}`);
-        throw new Error('Cabins could not be loaded');
+        throw new Error('Products could not be loaded');
     }
 
     return data;
@@ -106,6 +106,23 @@ export async function getProductCount(query: string) {
         console.error("Database Error:", error);
         throw new Error("Failed to fetch total number of products.");
     }
+}
+
+export async function getProfileById(userId: string): Promise<Product[]> {
+    const supabase = createClient();
+
+    const {data, error} = await supabase
+        .from('et_profiles')
+        .select('*')
+        .eq('id', userId)
+
+
+    if (error) {
+        console.error(`❌ [data-service.ts - getProfileById] ${error}`);
+        throw new Error('Profile could not be loaded');
+    }
+
+    return data;
 }
 
 
