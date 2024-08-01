@@ -1,15 +1,16 @@
 import React from "react";
 import {getUserProfile} from "@/app/_lib/data-service";
-import {ProfileData} from "@/app/_types/database";
+import {Profile} from "@/app/_types/database";
+import EditProfileForm from "@/app/_components/EditProfileForm";
 
 export default async function ProfilePage() {
-    const {first_name, last_name, email}: ProfileData = await getUserProfile();
+    const profileData: Profile = await getUserProfile();
 
     return (
         <div>
             <h1>Profile Page</h1>
 
-            <p>Greetings, {first_name}!</p>
+            <EditProfileForm profileData={profileData} />
         </div>
     )
 }

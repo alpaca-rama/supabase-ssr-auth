@@ -5,6 +5,7 @@ import {ascending} from "d3-array";
 import {revalidatePath} from "next/cache";
 import {PRODUCTS_PER_PAGE} from "@/app/_data/constants";
 import {Product, Profile} from "@/app/_types/database";
+import {id} from "postcss-selector-parser";
 
 //////////
 // GET //
@@ -114,7 +115,7 @@ export async function getUserProfile()  {
 
     const {data, error} = await supabase
         .from('et_profiles')
-        .select('first_name, last_name, email')
+        .select('*')
         .single();
 
 
@@ -130,6 +131,7 @@ export async function getUserProfile()  {
 // //////////
 // DELETE //
 ////////////
+
 
 export async function deleteProductById(productId: string) {
     console.log(`Attempting to delete product with ID: ${productId}`);
@@ -154,6 +156,12 @@ export async function deleteProductById(productId: string) {
 
     revalidatePath('/products');
 }
+
+
+// //////////
+// UPDATE //
+////////////
+
 
 export async function updateProduct(formData: FormData) {
     console.log(`Attempting to Update product ${formData.get('id')}`);
@@ -193,10 +201,45 @@ export async function updateProduct(formData: FormData) {
     revalidatePath('/products');
 }
 
+export async function updateProfile(formData: FormData) {
+    console.log(`Attempting to Update profile`);
+    const supabase = createClient();
+
+    const id = formData.get('id');
+    if (!id) {
+        throw new Error('Product ID is required');
+    }
+
+    const updatedData = {
+        first_name: formData.get('first_name') as string,
+        last_name: formData.get('last_name') as string,
+        email: formData.get('email') as string,
+    };
+
+    const { data, error } = await supabase
+        .from('et_profiles')
+        .update(updatedData)
+        .eq('id', id)
+
+
+    if (error) {
+        console.error(`Error updating profile: ${error.message}`);
+        throw new Error(`Error updating profile: ${error.message}`);
+    }
+
+    if (data) {
+        console.log(`Successfully updated profile`);
+    } else {
+        console.warn(`No profile found`);
+    }
+
+    revalidatePath('/account/profile');
+}
 
 // //////////
-// UPDATE //
+// INSERT //
 ////////////
+
 
 export async function addProduct(formData: FormData) {
     console.log(`Attempting to add product ${formData.get('name')}`);

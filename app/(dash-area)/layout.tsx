@@ -8,7 +8,7 @@ import {ThemeToggle} from "@/app/_components/ThemeToggle";
 import SiteTitle from "@/app/_components/SiteTitle";
 import {createClient} from "@/app/_utils/supabase/server";
 import {getUserProfile} from "@/app/_lib/data-service";
-import {ProfileData} from "@/app/_types/database";
+import {Profile} from "@/app/_types/database";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default async function DashLayout({children}: { children: React.ReactNode; }) {
     const supabase = createClient();
     // const {data: {user}, error} = await supabase.auth.getUser();
-    const profileData: ProfileData = await getUserProfile();
+    const profileData: Profile = await getUserProfile();
 
     return (
         <div className="grid min-h-screen w-full md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr]">

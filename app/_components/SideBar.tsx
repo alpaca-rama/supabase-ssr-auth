@@ -9,10 +9,10 @@ import React from "react";
 import {usePathname} from "next/navigation";
 import {Separator} from "@/app/_components/ui/separator";
 import ProfileSection from "@/app/_components/ProfileSection";
-import {ProfileData} from "@/app/_types/database";
+import {Profile} from "@/app/_types/database";
 
 interface SideBarProps {
-    profileData: ProfileData;
+    profileData: Profile;
 }
 
 export default function SideBar({profileData}: SideBarProps) {

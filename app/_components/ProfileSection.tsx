@@ -1,10 +1,10 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/app/_components/ui/avatar";
 import ProfileMenu from "@/app/_components/ProfileMenu";
 import Link from "next/link";
-import {ProfileData} from "@/app/_types/database";
+import {Profile} from "@/app/_types/database";
 
 interface ProfileSectionProps {
-    profileData: ProfileData;
+    profileData: Profile;
 }
 
 export default function ProfileSection({profileData: {first_name, last_name, email}}: ProfileSectionProps) {
